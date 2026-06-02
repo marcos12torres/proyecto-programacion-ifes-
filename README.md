@@ -1,18 +1,32 @@
-## Getting Started
+# Proyecto Integrador IFES
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Integrantes
 
-## Folder Structure
+* Marcos Torres
+* Nombre del compañero
 
-The workspace contains two folders by default, where:
+## Materia
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+Programación
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## Descripción
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+Proyecto desarrollado en Java como trabajo integrador de la materia Programación.
 
-## Dependency Management
+## Tecnologías
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+* Java
+* Git
+* GitHub
+* Visual Studio Code / Cursor
+
+## Estructura del proyecto
+
+* src: código fuente
+* bin: archivos compilados
+* README.md: documentación del proyecto
+
+## Repositorio
+
+El desarrollo del proyecto se realiza utilizando Git y GitHub para el control de versiones y trabajo colaborativo.
+
