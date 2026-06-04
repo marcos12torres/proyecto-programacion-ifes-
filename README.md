@@ -18,7 +18,7 @@ Proyecto desarrollado en Java como trabajo integrador de la materia Programació
 * Java
 * Git
 * GitHub
-* Visual Studio Code / Cursor
+* Visual Studio Code
 
 ## Estructura del proyecto
 
