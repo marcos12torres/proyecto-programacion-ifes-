@@ -40,7 +40,7 @@ Se podrán registrar turnos de distintos tipos (consulta, estudio y cirugía), g
 * Programación Orientada a Objetos (POO)
 * Git
 * GitHub
-* Visual Studio Code / Cursor
+* Visual Studio Code
 
 ## Estructura General
 
@@ -56,7 +56,7 @@ El proyecto utiliza conceptos de:
 ## Ejecución
 
 1. Clonar el repositorio.
-2. Abrir el proyecto en Visual Studio Code o Cursor.
+2. Abrir el proyecto en Visual Studio Code.
 3. Compilar el proyecto Java.
 4. Ejecutar la clase principal del sistema.
 
