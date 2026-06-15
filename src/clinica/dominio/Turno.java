@@ -1,11 +1,106 @@
 package clinica.dominio;
 
-/**
- * Clase abstracta que representa un turno médico genérico.
- * Las subclases Consulta, Estudio y Cirugia definirán el tipo concreto de turno.
- */
-public abstract class Turno {
+import java.io.Serializable;
 
-    protected Turno() {
+import clinica.excepcion.TurnoNoDisponibleException;
+
+/**
+ * Representa un turno dentro de la clínica.
+ * Puede ser una Consulta, Estudio o Cirugía.
+ */
+public abstract class Turno implements IAgendable, Serializable {
+
+    protected int id;
+    protected String fecha;
+    protected String hora;
+    protected String descripcion;
+    private EstadoTurno estado;
+
+    public Turno(int id, String fecha, String hora, String descripcion) {
+
+        this.id = id;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.descripcion = descripcion;
+        this.estado = EstadoTurno.PENDIENTE;
+    }
+
+    public Turno() {
+
+    }
+
+    public abstract String getEspecialidad();
+
+    public void mostrarInfo() {
+        System.out.println(
+                "Turno ID: " + id +
+                " Fecha: " + fecha +
+                " Hora: " + hora +
+                " Estado: " + estado);
+    }
+
+    @Override
+    public void confirmar() throws TurnoNoDisponibleException {
+
+        if (estado != EstadoTurno.PENDIENTE) {
+
+            throw new TurnoNoDisponibleException(
+                    "El turno no se puede confirmar");
+        }
+
+        estado = EstadoTurno.CONFIRMADO;
+    }
+
+    @Override
+    public void cancelar() {
+        estado = EstadoTurno.CANCELADO;
+    }
+
+    @Override
+    public String toString() {
+        return "Turno ID: " + id +
+               " Fecha: " + fecha +
+               " Hora: " + hora +
+               " Estado: " + estado;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public EstadoTurno getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoTurno estado) {
+        this.estado = estado;
     }
 }
