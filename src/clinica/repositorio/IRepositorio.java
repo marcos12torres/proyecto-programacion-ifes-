@@ -1,4 +1,11 @@
-package clinica.repositorio;
+package repositorio;
 
-public interface IRepositorio {
+import java.util.List;
+
+public interface IRepositorio<T> {
+
+    void guardar(List<T> elementos);
+
+    List<T> consultar();
 }
+
