@@ -1,15 +1,20 @@
-package repositorio;
+package clinica.repositorio;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RepositorioArchivo<T> implements IRepositorio<T> {
 
-    private String nombreArchivo;
+    private File nombreArchivo;
 
     public RepositorioArchivo(String nombreArchivo) {
-        this.nombreArchivo = nombreArchivo;
+
+        this.nombreArchivo = new File(nombreArchivo);
     }
 
     @Override
@@ -21,9 +26,11 @@ public class RepositorioArchivo<T> implements IRepositorio<T> {
 
             salida.writeObject(elementos);
 
-        } catch (IOException e) {
-            System.out.println("Error al guardar archivo: " + e.getMessage());
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
+
     }
 
     @Override
@@ -33,6 +40,7 @@ public class RepositorioArchivo<T> implements IRepositorio<T> {
         File archivo = new File(nombreArchivo);
 
         if (!archivo.exists()) {
+
             return new ArrayList<>();
         }
 
@@ -42,11 +50,12 @@ public class RepositorioArchivo<T> implements IRepositorio<T> {
 
             return (List<T>) entrada.readObject();
 
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (Exception e) {
 
-            System.out.println("Error al leer archivo: " + e.getMessage());
-
-            return new ArrayList<>();
+            e.printStackTrace();
         }
+
+        return new ArrayList<>();
     }
+
 }

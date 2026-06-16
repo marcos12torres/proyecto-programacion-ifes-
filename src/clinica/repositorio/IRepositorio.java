@@ -1,4 +1,4 @@
-package repositorio;
+package clinica.repositorio;
 
 import java.util.List;
 
