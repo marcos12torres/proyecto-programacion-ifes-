@@ -1,7 +1,5 @@
 package clinica.ui;
-
 import java.util.Scanner;
-
 import clinica.dominio.Cirugia;
 import clinica.dominio.Clinica;
 import clinica.dominio.Consulta;
@@ -16,6 +14,7 @@ public class Menu {
 
     private Scanner scanner;
     private Clinica clinica;
+    private IRepositorio<Turno> repositorioTurnos;
 
     public void iniciar() {
 
@@ -23,11 +22,10 @@ public class Menu {
 
         clinica = new Clinica();
 
-        IRepositorio<Paciente> repositorioPacientes =
-                new RepositorioArchivo<>("pacientes.dat");
+        
+        repositorioTurnos = new RepositorioArchivo<>("turnos.dat");
 
-        IRepositorio<Turno> repositorioTurnos =
-                new RepositorioArchivo<>("turnos.dat");
+        cargarDatos();
 
         int opcion = -1;
 
@@ -101,6 +99,19 @@ public class Menu {
         scanner.close();
     }
 
+    private void cargarDatos() {
+
+        for (Turno turno : repositorioTurnos.consultar()) {
+            clinica.agregarTurno(turno);
+        }
+    }
+
+   
+
+    private void guardarTurnos() {
+        repositorioTurnos.guardar(clinica.getTurnos());
+    }
+
     private void registrarPaciente() {
 
         System.out.println("\n--- REGISTRAR PACIENTE ---");
@@ -122,6 +133,7 @@ public class Menu {
                 new Paciente(nombre, apellido, dni, obraSocial);
 
         clinica.agregarPersona(paciente);
+        clinica.agregarPersonaActiva(paciente);
 
         System.out.println("Paciente registrado.");
     }
@@ -213,6 +225,7 @@ public class Menu {
         if (turno != null) {
 
             clinica.agregarTurno(turno);
+            guardarTurnos();
 
             System.out.println("Turno agregado.");
         }
@@ -236,12 +249,16 @@ public class Menu {
         try {
 
             turno.confirmar();
+            guardarTurnos();
 
             System.out.println("Turno confirmado");
 
         } catch (TurnoNoDisponibleException e) {
 
             System.out.println(e.getMessage());
+        } finally {
+
+            System.out.println("Operacion finalizada");
         }
     }
 
@@ -261,6 +278,7 @@ public class Menu {
         }
 
         turno.cancelar();
+        guardarTurnos();
 
         System.out.println("Turno cancelado");
     }
@@ -276,8 +294,11 @@ public class Menu {
     private void mostrarAgenda() {
 
         System.out.println("\n--- AGENDA ---");
-
-        clinica.mostrarOrdenados();
+    
+        clinica.ordenarConComparator();
+    
+        clinica.getTurnos()
+                .forEach(Turno::mostrarInfo);
     }
 
     private void mostrarCancelados() {

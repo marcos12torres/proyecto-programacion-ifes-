@@ -37,7 +37,7 @@ public class RepositorioArchivo<T> implements IRepositorio<T> {
     @SuppressWarnings("unchecked")
     public List<T> consultar() {
 
-        File archivo = new File(nombreArchivo);
+        File archivo = nombreArchivo;
 
         if (!archivo.exists()) {
 
@@ -46,7 +46,7 @@ public class RepositorioArchivo<T> implements IRepositorio<T> {
 
         try (ObjectInputStream entrada =
                      new ObjectInputStream(
-                             new FileInputStream(nombreArchivo))) {
+                             new FileInputStream(archivo))) {
 
             return (List<T>) entrada.readObject();
 
