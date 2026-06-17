@@ -40,6 +40,8 @@ public class Consulta extends Turno {
 
         System.out.println("Sintomas: " + sintomas);
         System.out.println("Diagnostico: " + diagnostico);
+
+        System.out.println("--------------------------------------------");
     }
 
     public String getSintomas() {

@@ -40,6 +40,8 @@ public class Cirugia extends Turno {
 
         System.out.println("Tipo de cirugia: " + tipoCirugia);
         System.out.println("Quirofano: " + quirofano);
+
+        System.out.println("--------------------------------------------");
     }
 
     public String getTipoCirugia() {

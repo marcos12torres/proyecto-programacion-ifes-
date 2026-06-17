@@ -40,6 +40,8 @@ public class Estudio extends Turno {
 
         System.out.println("Tipo de estudio: " + tipoEstudio);
         System.out.println("Laboratorio: " + laboratorio);
+
+        System.out.println("--------------------------------------------");
     }
 
     public String getTipoEstudio() {

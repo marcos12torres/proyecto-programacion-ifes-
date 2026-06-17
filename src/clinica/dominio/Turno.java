@@ -32,11 +32,10 @@ public abstract class Turno implements IAgendable, Serializable {
     public abstract String getEspecialidad();
 
     public void mostrarInfo() {
-        System.out.println(
-                "Turno ID: " + id +
-                " Fecha: " + fecha +
-                " Hora: " + hora +
-                " Estado: " + estado);
+        System.out.println("Turno ID: " + id);
+        System.out.println("Fecha: " + fecha);
+        System.out.println("Hora: " + hora);
+        System.out.println("Estado: " + estado);
     }
 
     @Override
@@ -58,10 +57,10 @@ public abstract class Turno implements IAgendable, Serializable {
 
     @Override
     public String toString() {
-        return "Turno ID: " + id +
-               " Fecha: " + fecha +
-               " Hora: " + hora +
-               " Estado: " + estado;
+        return "Turno ID: " + id + "\n" +
+               " Fecha: " + fecha + "\n" +
+               " Hora: " + hora + "\n" +
+               " Estado: " + estado + "\n";
     }
 
     public int getId() {
