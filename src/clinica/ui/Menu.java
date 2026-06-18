@@ -39,6 +39,7 @@ public class Menu {
             System.out.println("5. Mostrar pendientes");
             System.out.println("6. Mostrar agenda");
             System.out.println("7. Mostrar cancelados");
+            System.out.println("8. Mostrar historial paciente");
             System.out.println("0. Salir");
 
             System.out.print("Seleccione una opcion: ");
@@ -84,6 +85,10 @@ public class Menu {
 
                 case 7:
                     mostrarCancelados();
+                    break;
+
+                case 8:
+                    mostrarHistorialPaciente();
                     break;
 
                 case 0:
@@ -146,8 +151,23 @@ public class Menu {
         System.out.println("2. Estudio");
         System.out.println("3. Cirugia");
 
+
+        
+
         int tipo = scanner.nextInt();
         scanner.nextLine();
+
+        System.out.print("DNI del paciente: ");
+        int dni = scanner.nextInt();
+        scanner.nextLine();
+
+        Paciente paciente = clinica.buscarPaciente(dni);
+
+        if (paciente == null) {
+
+            System.out.println("Paciente no encontrado");
+            return;
+        }
 
         System.out.print("ID: ");
         int id = scanner.nextInt();
@@ -225,6 +245,8 @@ public class Menu {
         if (turno != null) {
 
             clinica.agregarTurno(turno);
+
+            paciente.solicitarTurno(turno);
             guardarTurnos();
 
             System.out.println("Turno agregado.");
@@ -308,4 +330,25 @@ public class Menu {
         System.out.println(
                 "Cantidad: " + clinica.contarCancelados());
     }
+
+    private void mostrarHistorialPaciente() {
+
+        System.out.println("\n--- HISTORIAL PACIENTE ---");
+    
+        System.out.print("DNI: ");
+        int dni = scanner.nextInt();
+        scanner.nextLine();
+    
+        Paciente paciente = clinica.buscarPaciente(dni);
+    
+        if (paciente == null) {
+    
+            System.out.println("Paciente no encontrado");
+            return;
+        }
+    
+        paciente.mostrarHistorial();
+    }
+
+
 }

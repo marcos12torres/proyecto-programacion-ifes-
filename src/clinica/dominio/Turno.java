@@ -36,6 +36,8 @@ public abstract class Turno implements IAgendable, Serializable {
         System.out.println("Fecha: " + fecha);
         System.out.println("Hora: " + hora);
         System.out.println("Estado: " + estado);
+        System.out.println("Descripcion: " + descripcion);
+        System.out.println("Especialidad: " + getEspecialidad());
     }
 
     @Override
