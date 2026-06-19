@@ -47,6 +47,17 @@ public class Clinica {
 
         return null;
     }
+    public Medico buscarMedico(int dni) {
+
+        Persona persona = personas.get(dni);
+    
+        if (persona instanceof Medico) {
+    
+            return (Medico) persona;
+        }
+    
+        return null;
+    }
 
     public Turno buscarTurno(String fecha) {
 

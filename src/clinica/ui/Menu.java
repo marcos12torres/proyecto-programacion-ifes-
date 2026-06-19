@@ -5,17 +5,19 @@ import clinica.dominio.Clinica;
 import clinica.dominio.Consulta;
 import clinica.dominio.Estudio;
 import clinica.dominio.Paciente;
+import clinica.dominio.Medico;
 import clinica.dominio.Turno;
 import clinica.excepcion.TurnoNoDisponibleException;
 import clinica.repositorio.IRepositorio;
 import clinica.repositorio.RepositorioArchivo;
-
+import clinica.dominio.Persona;
 public class Menu {
 
     private Scanner scanner;
     private Clinica clinica;
     private IRepositorio<Turno> repositorioTurnos;
-
+    private IRepositorio<Paciente> repositorioPacientes;
+    private IRepositorio<Medico> repositorioMedicos;
     public void iniciar() {
 
         scanner = new Scanner(System.in);
@@ -24,6 +26,8 @@ public class Menu {
 
         
         repositorioTurnos = new RepositorioArchivo<>("turnos.dat");
+        repositorioPacientes = new RepositorioArchivo<>("pacientes.dat");
+        repositorioMedicos = new RepositorioArchivo<>("medicos.dat");   
 
         cargarDatos();
 
@@ -33,13 +37,15 @@ public class Menu {
 
             System.out.println("\n===== CLINICA =====");
             System.out.println("1. Registrar paciente");
-            System.out.println("2. Agregar turno");
-            System.out.println("3. Confirmar turno");
-            System.out.println("4. Cancelar turno");
-            System.out.println("5. Mostrar pendientes");
-            System.out.println("6. Mostrar agenda");
-            System.out.println("7. Mostrar cancelados");
-            System.out.println("8. Mostrar historial paciente");
+            System.out.println("2. Registrar medico");
+            System.out.println("3. Agregar turno");
+            System.out.println("4. Confirmar turno");
+            System.out.println("5. Cancelar turno");
+            System.out.println("6. Mostrar pendientes");
+            System.out.println("7. Mostrar agenda");
+            System.out.println("8. Mostrar cancelados");
+            System.out.println("9. Mostrar historial paciente");
+            System.out.println("10. Mostrar medicos");
             System.out.println("0. Salir");
 
             System.out.print("Seleccione una opcion: ");
@@ -62,33 +68,38 @@ public class Menu {
                 case 1:
                     registrarPaciente();
                     break;
-
                 case 2:
+                    registrarMedico();
+                    break;
+                case 3:
                     agregarTurno();
                     break;
 
-                case 3:
+                case 4:
                     confirmarTurno();
                     break;
 
-                case 4:
+                case 5:
                     cancelarTurno();
                     break;
 
-                case 5:
+                case 6:
                     mostrarPendientes();
                     break;
 
-                case 6:
+                case 7:
                     mostrarAgenda();
                     break;
 
-                case 7:
+                case 8:
                     mostrarCancelados();
                     break;
 
-                case 8:
+                case 9:
                     mostrarHistorialPaciente();
+                    break;
+                case 10:
+                    mostrarMedicos();
                     break;
 
                 case 0:
@@ -106,15 +117,63 @@ public class Menu {
 
     private void cargarDatos() {
 
-        for (Turno turno : repositorioTurnos.consultar()) {
+        for (Paciente paciente :
+                repositorioPacientes.consultar()) {
+    
+            clinica.agregarPersona(paciente);
+            clinica.agregarPersonaActiva(paciente);
+        }
+    
+        for (Turno turno :
+                repositorioTurnos.consultar()) {
+    
             clinica.agregarTurno(turno);
         }
+        for (Medico medico :
+            repositorioMedicos.consultar()) {
+    
+        clinica.agregarPersona(medico);
     }
-
+    }
    
 
     private void guardarTurnos() {
         repositorioTurnos.guardar(clinica.getTurnos());
+    }
+
+    private void guardarPacientes() {
+
+        java.util.List<Paciente> pacientes =
+                new java.util.ArrayList<>();
+    
+        for (Object persona :
+                clinica.getPersonas().values()) {
+    
+            if (persona instanceof Paciente) {
+    
+                pacientes.add((Paciente) persona);
+            }
+        }
+    
+        repositorioPacientes.guardar(pacientes);
+    }
+
+
+    private void guardarMedicos() {
+
+        java.util.List<Medico> medicos =
+                new java.util.ArrayList<>();
+    
+        for (Object persona :
+                clinica.getPersonas().values()) {
+    
+            if (persona instanceof Medico) {
+    
+                medicos.add((Medico) persona);
+            }
+        }
+    
+        repositorioMedicos.guardar(medicos);
     }
 
     private void registrarPaciente() {
@@ -140,7 +199,43 @@ public class Menu {
         clinica.agregarPersona(paciente);
         clinica.agregarPersonaActiva(paciente);
 
+        guardarPacientes();
+
         System.out.println("Paciente registrado.");
+    }
+    private void registrarMedico() {
+
+        System.out.println("\n--- REGISTRAR MEDICO ---");
+    
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+    
+        System.out.print("Apellido: ");
+        String apellido = scanner.nextLine();
+    
+        System.out.print("DNI: ");
+        int dni = scanner.nextInt();
+    
+        System.out.print("Matricula: ");
+        int matricula = scanner.nextInt();
+        scanner.nextLine();
+    
+        System.out.print("Especialidad: ");
+        String especialidad = scanner.nextLine();
+    
+        Medico medico =
+                new Medico(
+                        nombre,
+                        apellido,
+                        dni,
+                        matricula,
+                        especialidad);
+    
+        clinica.agregarPersona(medico);
+    
+        guardarMedicos();
+    
+        System.out.println("Medico registrado.");
     }
 
     private void agregarTurno() {
@@ -166,6 +261,18 @@ public class Menu {
         if (paciente == null) {
 
             System.out.println("Paciente no encontrado");
+            return;
+        }
+
+        System.out.print("DNI del medico: ");
+        int dniMedico = scanner.nextInt();
+        scanner.nextLine();
+
+        Medico medico = clinica.buscarMedico(dniMedico);
+
+        if (medico == null) {
+
+            System.out.println("Medico no encontrado");
             return;
         }
 
@@ -243,12 +350,15 @@ public class Menu {
         }
 
         if (turno != null) {
-
             clinica.agregarTurno(turno);
 
             paciente.solicitarTurno(turno);
+        
+            medico.registrarTurno(turno);
+        
             guardarTurnos();
-
+            guardarPacientes();
+        
             System.out.println("Turno agregado.");
         }
     }
@@ -348,6 +458,20 @@ public class Menu {
         }
     
         paciente.mostrarHistorial();
+    }
+   
+    private void mostrarMedicos() {
+
+        System.out.println("\n--- MEDICOS ---");
+    
+        for (Persona persona :
+                clinica.getPersonas().values()) {
+    
+            if (persona instanceof Medico) {
+    
+                persona.mostrarInfo();
+            }
+        }
     }
 
 

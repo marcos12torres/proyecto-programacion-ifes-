@@ -16,10 +16,8 @@ public class Medico extends Persona {
 
     public void registrarTurno(Turno turno) {
 
-        System.out.println("El medico " + nombre +
-                           " registro el turno:");
-
-        turno.mostrarInfo();
+        System.out.println(
+            "El medico " + nombre + " " + apellido + " con DNI " + dni + " registro el turno ID: " + turno.getId());
     }
     @Override
     public void mostrarInfo() {

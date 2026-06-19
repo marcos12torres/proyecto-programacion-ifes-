@@ -25,10 +25,19 @@ public class Paciente extends Persona {
 
     public void mostrarHistorial() {
 
+        System.out.println("----------------------------------");
+        System.out.println("Paciente: " + nombre + " " + apellido);
+        System.out.println("DNI: " + dni);
+        System.out.println("Obra Social: " + obraSocial);
+        System.out.println("----------------------------------");
+    
         System.out.println("Historial de turnos:");
-
+    
         for (Turno turno : historialTurnos) {
+    
             turno.mostrarInfo();
+    
+            System.out.println("----------------------------------");
         }
     }
 
