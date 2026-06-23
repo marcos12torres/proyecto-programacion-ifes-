@@ -382,7 +382,7 @@ public class Menu {
 
             turno.confirmar();
             guardarTurnos();
-
+            guardarPacientes();
             System.out.println("Turno confirmado");
 
         } catch (TurnoNoDisponibleException e) {
@@ -411,7 +411,7 @@ public class Menu {
 
         turno.cancelar();
         guardarTurnos();
-
+        guardarPacientes();
         System.out.println("Turno cancelado");
     }
 
@@ -472,7 +472,4 @@ public class Menu {
                 persona.mostrarInfo();
             }
         }
-    }
-
-
-}
+    }}
